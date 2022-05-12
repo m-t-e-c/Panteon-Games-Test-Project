@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public enum GameState { None, Menu, Paused, Playing, Finished }
 
@@ -19,11 +20,19 @@ public class GameManager : MonoBehaviour
     // Public
     public GameState currentGameState = GameState.None;
 
+    private void Awake()
+    {
+        currentGameState = GameState.Menu;
+    }
+
     private void Update()
     {
-        if (Input.anyKey)
+        if (Input.anyKey && currentGameState == GameState.Menu)
         {
-            currentGameState = GameState.Playing;
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
+            UIManager.instance.ExecuteCommand("Start Game");
         }
     }
 }

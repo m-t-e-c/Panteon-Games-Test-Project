@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
 public abstract class Character : MonoBehaviour
 {
     [Header("Character Movement Properties")]
@@ -36,6 +36,4 @@ public abstract class Character : MonoBehaviour
         Vector3 newPosition = new Vector3(xPos,transform.position.y, transform.position.z + forwardSpeed);
         transform.position = newPosition;
     }
-
-  
 }
