@@ -34,6 +34,8 @@ namespace PaintIn3D
 		/// <summary>The color count will be output via this event.</summary>
 		public StringEvent OnString { get { if (onString == null) onString = new StringEvent(); return onString; } } [SerializeField] private StringEvent onString;
 
+		public string final = "";
+
 		protected virtual void Update()
 		{
 			var finalCounters = counters.Count > 0 ? counters : null;
@@ -45,7 +47,7 @@ namespace PaintIn3D
 				count = total - count;
 			}
 
-			var final   = format;
+			final   = format;
 			var percent = P3dCommon.RatioToPercentage(CwHelper.Divide(count, total), decimalPlaces);
 
 			final = final.Replace("{TOTAL}", total.ToString());

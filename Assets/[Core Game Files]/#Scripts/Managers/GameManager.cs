@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
 
-            UIManager.instance.ExecuteCommand("Start Game");
+            UIManager.OnCommandExecuted?.Invoke("Start Game");
         }
     }
 }

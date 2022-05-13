@@ -7,7 +7,7 @@ public abstract class UIElement : MonoBehaviour
     protected virtual void Awake()
     {
         if (_uiType != UIMenuType.None)
-            UIManager.instance.RegisterUI(_uiType, this);
+            UIManager.OnRegisterUI?.Invoke(_uiType,this);
     }
 
     public abstract UIMenuType GetUIType();

@@ -16,6 +16,6 @@ public class UIButton : MonoBehaviour
 
     public void ClickEvent()
     {
-        UIManager.instance.ExecuteCommand(_buttonCommand);
+        UIManager.OnCommandExecuted?.Invoke(_buttonCommand);
     }
 }

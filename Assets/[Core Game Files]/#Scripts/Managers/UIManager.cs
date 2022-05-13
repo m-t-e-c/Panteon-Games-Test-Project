@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,21 +6,15 @@ public enum UIMenuType { None, MainMenu, Pause, Gameplay, Win, Lose }
 
 public class UIManager : MonoBehaviour
 {
+
+    // Events
+    public static Action<UIMenuType, UIElement> OnRegisterUI;
+    public static Action<string> OnCommandExecuted;
+
+    // UI Element List
     private Dictionary<UIMenuType, UIElement> _uiElements = new Dictionary<UIMenuType, UIElement>();
 
     [SerializeField] private UIMenuType _startUI = UIMenuType.MainMenu;
-
-    private static UIManager _instance;
-    public static UIManager instance
-    {
-        get
-        {
-            if (_instance == null)
-                _instance = FindObjectOfType<UIManager>();
-
-            return _instance;
-        }
-    }
 
     private void Start()
     {
@@ -32,7 +27,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ExecuteCommand(string command)
+    private void m_OnCommandExecuted(string command)
     {
         if (string.IsNullOrEmpty(command))
             return;
@@ -46,7 +41,7 @@ public class UIManager : MonoBehaviour
 
             case "Close Pause Menu":
                 CloseUI(UIMenuType.Pause);
-                GameManager.instance.currentGameState = GameState.Playing;
+                GameManager.instance.currentGameState = GameState.Paused;
                 break;
 
             case "Show Win Menu":
@@ -66,6 +61,7 @@ public class UIManager : MonoBehaviour
                 break;
 
             case "Restart Level":
+                ResetUI();
                 LevelManager.instance.RestartLevel();
                 GameManager.instance.currentGameState = GameState.Menu;
                 break;
@@ -94,7 +90,7 @@ public class UIManager : MonoBehaviour
     }
 
     // Registering UI Element to _uiElement dictionary so we can control it later.
-    public void RegisterUI(UIMenuType menuType, UIElement element)
+    private void m_OnRegisterUI(UIMenuType menuType, UIElement element)
     {
         if (name != null && element != null)
             if (!_uiElements.ContainsKey(menuType))
@@ -106,7 +102,7 @@ public class UIManager : MonoBehaviour
 
 
     // If we have valid uiType, it will open ui.
-    public void OpenUI(UIMenuType uiType)
+    private void OpenUI(UIMenuType uiType)
     {
         UIElement uiElement = null;
         if (_uiElements.TryGetValue(uiType, out uiElement))
@@ -117,12 +113,36 @@ public class UIManager : MonoBehaviour
 
 
     // If we have valid uiType, it will close ui.
-    public void CloseUI(UIMenuType uiType)
+    private void CloseUI(UIMenuType uiType)
     {
         UIElement uiElement = null;
         if (_uiElements.TryGetValue(uiType, out uiElement))
         {
             uiElement.HideUI();
         }
+    }
+
+    // Reseting all UI element to default state.
+    private void ResetUI()
+    {
+        foreach(UIElement element in _uiElements.Values)
+        {
+            if (element.GetUIType() == UIMenuType.MainMenu)
+                element.ShowUI();
+
+            element.HideUI();
+        }
+    }
+
+    private void OnEnable()
+    {
+        OnRegisterUI += m_OnRegisterUI;
+        OnCommandExecuted += m_OnCommandExecuted;
+    }
+
+    private void OnDisable()
+    {
+        OnRegisterUI -= m_OnRegisterUI;
+        OnCommandExecuted -= m_OnCommandExecuted;
     }
 }

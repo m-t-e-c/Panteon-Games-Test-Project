@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class LevelManager : MonoBehaviour
 {
+    // References
     [SerializeField] private List<Level> _levels = new List<Level>();
-    [SerializeField] private int _levelIndex = 0;
+    [SerializeField] private int _currentlevelIndex = 0;
 
     private static LevelManager _instance;
     public static LevelManager instance
@@ -18,25 +20,39 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    // Component References
+    private NavMeshSurface _navMeshSurface;
+
+    private void Start()
+    {
+        _navMeshSurface = GetComponent<NavMeshSurface>();
+        NextLevel();
+    }
+
     [ContextMenu("Load Next Level")]
     public void NextLevel()
     {
-        GameObject go = GameObject.FindWithTag("Level").gameObject;
+        GameObject go = GameObject.FindWithTag("Level");
         if (go != null)
             Destroy(go);
 
-        if (_levels.Count > 0)
-        {
-            _levels[_levelIndex].Load();
-        }
+
+        if (_currentlevelIndex == _levels.Count - 1)
+            _currentlevelIndex = 0;
+        else
+            _currentlevelIndex++;
+
+        _levels[_currentlevelIndex].Load();
+        _navMeshSurface.BuildNavMesh();
     }
 
     public void RestartLevel()
     {
-        GameObject go = GameObject.FindWithTag("Level").gameObject;
+        GameObject go = GameObject.FindWithTag("Level");
         if (go != null)
             Destroy(go);
 
-        _levels[_levelIndex].Load();
+        _levels[_currentlevelIndex].Load();
+        _navMeshSurface.BuildNavMesh();
     }
 }

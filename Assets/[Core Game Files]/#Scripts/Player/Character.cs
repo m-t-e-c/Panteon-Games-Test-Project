@@ -5,8 +5,6 @@ public abstract class Character : MonoBehaviour
 {
     [Header("Character Movement Properties")]
     [SerializeField] protected Vector2 _movementBoundary = Vector2.zero;
-    [SerializeField][Range(0f, 100f)] protected float _forwardSpeed = 5f;
-    [SerializeField][Range(0f, 100f)] protected float _sidewaySpeed = 20f;
 
     [Header("Component References")]
     [SerializeField] protected Animator _animator;
@@ -14,7 +12,8 @@ public abstract class Character : MonoBehaviour
     protected CapsuleCollider _capsuleCollider = null;
 
     [Header("States")]
-    [SerializeField] protected bool _isMoving = false;
+    [SerializeField] protected bool _isMoving = false; 
+    [SerializeField] protected bool _isPainting= false;
 
     public float xPos = 0;
 
@@ -24,16 +23,37 @@ public abstract class Character : MonoBehaviour
         _capsuleCollider = GetComponent<CapsuleCollider>();
     }
 
-    // Default character movement system.
-    protected virtual void Move(float horizontal, float vertical = 1f)
+    // Finding all RigidBody part we have, and we turning off/on them.
+    // And we are deactivating our CapsuleCollider and RigidBody to not collide with ragdoll colliders.
+    protected virtual void ToggleRagdoll(bool x)
     {
-        float forwardSpeed = vertical * _forwardSpeed * Time.deltaTime;
-        float sidewaySpeed = horizontal * _sidewaySpeed * Time.deltaTime;
+        Rigidbody[] rigids = GetComponentsInChildren<Rigidbody>();
+        Animator animator = GetComponentInChildren<Animator>();
+        foreach (Rigidbody rb in rigids)
+        {
+            rb.isKinematic = !x;
+            rb.GetComponent<Collider>().isTrigger = !x;
+        }
 
-        xPos += sidewaySpeed;
-        xPos = Mathf.Clamp(xPos, _movementBoundary.x, _movementBoundary.y);
+        _capsuleCollider.isTrigger = x;
+        _rigidBody.isKinematic = x;
+        animator.enabled = !x;
+    }
 
-        Vector3 newPosition = new Vector3(xPos,transform.position.y, transform.position.z + forwardSpeed);
-        transform.position = newPosition;
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("FinishLine"))
+        {
+            _isPainting = true;
+        }
+    }
+
+    protected virtual void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            // When Character collide with obstacle we turning ragdoll on.
+            ToggleRagdoll(true);
+        }
     }
 }
