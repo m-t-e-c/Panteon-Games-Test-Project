@@ -15,7 +15,12 @@ public abstract class Character : MonoBehaviour
     [SerializeField] protected bool _isMoving = false; 
     [SerializeField] protected bool _isPainting= false;
 
+    [SerializeField] protected Transform _footTransform;
+    [SerializeField] protected GameObject _stepDust;
+
     public float xPos = 0;
+
+    #region Unity Methods
 
     protected virtual void Awake()
     {
@@ -23,22 +28,6 @@ public abstract class Character : MonoBehaviour
         _capsuleCollider = GetComponent<CapsuleCollider>();
     }
 
-    // Finding all RigidBody part we have, and we turning off/on them.
-    // And we are deactivating our CapsuleCollider and RigidBody to not collide with ragdoll colliders.
-    protected virtual void ToggleRagdoll(bool x)
-    {
-        Rigidbody[] rigids = GetComponentsInChildren<Rigidbody>();
-        Animator animator = GetComponentInChildren<Animator>();
-        foreach (Rigidbody rb in rigids)
-        {
-            rb.isKinematic = !x;
-            rb.GetComponent<Collider>().isTrigger = !x;
-        }
-
-        _capsuleCollider.isTrigger = x;
-        _rigidBody.isKinematic = x;
-        animator.enabled = !x;
-    }
 
     protected virtual void OnTriggerEnter(Collider other)
     {
@@ -56,4 +45,26 @@ public abstract class Character : MonoBehaviour
             ToggleRagdoll(true);
         }
     }
+
+    #endregion
+
+    #region Character Virtual Methods
+
+    // Finding all RigidBody part we have, and we turning off/on them.
+    // And we are deactivating our CapsuleCollider and RigidBody to not collide with ragdoll colliders.
+    protected virtual void ToggleRagdoll(bool x)
+    {
+        Rigidbody[] rigids = GetComponentsInChildren<Rigidbody>();
+        Animator animator = GetComponentInChildren<Animator>();
+        foreach (Rigidbody rb in rigids)
+        {
+            rb.isKinematic = !x;
+            rb.GetComponent<Collider>().isTrigger = !x;
+        }
+
+        _capsuleCollider.isTrigger = x;
+        _rigidBody.isKinematic = x;
+        animator.enabled = !x;
+    }
+    #endregion
 }

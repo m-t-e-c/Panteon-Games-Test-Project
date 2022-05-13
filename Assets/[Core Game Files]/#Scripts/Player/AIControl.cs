@@ -8,32 +8,36 @@ public class AIControl : Character
     private int isCheeringAnimHash = -1;
 
     // References
+    [SerializeField] private GameObject _hitParticle;
     private Vector3 _startPos;
     private NavMeshAgent _navAgent;
-    private Transform _finishLine;
+    private FinishLine _finishLine;
+
+    // States
+    private bool _isReached = false;
 
     [Header("NavMesh Properties")]
     [SerializeField][Range(0, 15f)] private float _moveSpeed = 5f;
 
+    public Transform currentDestination;
+
     private void Start()
     {
         _startPos = transform.position;
-
         isMovingAnimHash = Animator.StringToHash("isMoving");
-        isCheeringAnimHash = Animator.StringToHash("isCheering");
-
-        _finishLine = GameObject.FindWithTag("FinishLine").transform;
-
+        _finishLine = GameObject.FindWithTag("FinishLine").GetComponent<FinishLine>();
         _navAgent = GetComponent<NavMeshAgent>();
-
-        _navAgent.SetDestination(_finishLine.position);
         _navAgent.speed = _moveSpeed;
+
+        currentDestination = _finishLine.GetStandPoint();
+        _navAgent.SetDestination(currentDestination.position);
     }
 
     private void Update()
     {
-        if (GameManager.instance.currentGameState == GameState.Playing)
+        if (GameManager.instance.currentGameState == GameState.Playing && _isReached == false)
         {
+            _rigidBody.isKinematic = true;
             _animator.SetBool(isMovingAnimHash, true);
             _navAgent.isStopped = false;
             return;
@@ -47,7 +51,7 @@ public class AIControl : Character
     {
         if (other.CompareTag("FinishLine"))
         {
-            print("YO");
+            _isReached = true;
             _navAgent.isStopped = true;
             _animator.SetBool(isMovingAnimHash, false);
             _animator.SetBool(isCheeringAnimHash, true);
@@ -56,9 +60,13 @@ public class AIControl : Character
 
     protected override void OnCollisionEnter(Collision other)
     {
-        //base.OnCollisionEnter(other);
-
+        //Taking AI to the start position.
         if (other.gameObject.CompareTag("Obstacle"))
+        {
+            if (_hitParticle != null)
+                Instantiate(_hitParticle, transform.position, Quaternion.identity).ParentSet(LevelManager.instance.debrisParent);
+
             transform.position = _startPos;
+        }
     }
 }

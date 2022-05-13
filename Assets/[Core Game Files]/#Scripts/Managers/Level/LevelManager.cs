@@ -20,6 +20,8 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public Transform debrisParent;
+
     // Component References
     private NavMeshSurface _navMeshSurface;
 
@@ -46,13 +48,19 @@ public class LevelManager : MonoBehaviour
         _navMeshSurface.BuildNavMesh();
     }
 
+
+    // If there is already a Level gameobject its deletes it,
+    // and instantiate a new level prefab by current level index if there is a level in level list.
     public void RestartLevel()
     {
         GameObject go = GameObject.FindWithTag("Level");
         if (go != null)
             Destroy(go);
 
-        _levels[_currentlevelIndex].Load();
-        _navMeshSurface.BuildNavMesh();
+        if(_levels.Count > 0)
+        {
+            _levels[_currentlevelIndex].Load();
+            _navMeshSurface.BuildNavMesh();
+        }
     }
 }

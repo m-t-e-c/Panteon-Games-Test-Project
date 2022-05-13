@@ -12,6 +12,8 @@ public class PlayerControl : Character
 
     private float horizontal = 0;
 
+    [SerializeField] private GameObject _failStunParticle;
+
     #region Unity Methods
 
     private void Start()
@@ -32,9 +34,9 @@ public class PlayerControl : Character
         if (GameManager.instance.currentGameState == GameState.Playing)
         {
             if (_isPainting)
-                Paint();
-            else
-                Move(horizontal);
+                return;
+
+            Move(horizontal);
         }
     }
 
@@ -44,6 +46,9 @@ public class PlayerControl : Character
 
         if (other.gameObject.CompareTag("Obstacle"))
         {
+            // Activating stun particle.
+            _failStunParticle.SetActive(true);
+
             UIManager.OnCommandExecuted?.Invoke("Lose Game");
 
             // Setting camera to Fail Camera.
@@ -86,11 +91,6 @@ public class PlayerControl : Character
             _isMoving = false;
         else
             _isMoving = true;
-    }
-
-    private void Paint()
-    {
-        // Painting.
     }
 
     // Controls the animation state by hash values.

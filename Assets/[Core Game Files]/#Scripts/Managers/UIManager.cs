@@ -6,7 +6,6 @@ public enum UIMenuType { None, MainMenu, Pause, Gameplay, Win, Lose }
 
 public class UIManager : MonoBehaviour
 {
-
     // Events
     public static Action<UIMenuType, UIElement> OnRegisterUI;
     public static Action<string> OnCommandExecuted;
@@ -15,6 +14,8 @@ public class UIManager : MonoBehaviour
     private Dictionary<UIMenuType, UIElement> _uiElements = new Dictionary<UIMenuType, UIElement>();
 
     [SerializeField] private UIMenuType _startUI = UIMenuType.MainMenu;
+
+    #region Unity Methods
 
     private void Start()
     {
@@ -27,6 +28,23 @@ public class UIManager : MonoBehaviour
         }
     }
 
+
+    private void OnEnable()
+    {
+        OnRegisterUI += m_OnRegisterUI;
+        OnCommandExecuted += m_OnCommandExecuted;
+    }
+
+    private void OnDisable()
+    {
+        OnRegisterUI -= m_OnRegisterUI;
+        OnCommandExecuted -= m_OnCommandExecuted;
+    }
+
+    #endregion
+
+    #region UIManager Methods
+    // It executes commands according to incoming string.
     private void m_OnCommandExecuted(string command)
     {
         if (string.IsNullOrEmpty(command))
@@ -41,7 +59,7 @@ public class UIManager : MonoBehaviour
 
             case "Close Pause Menu":
                 CloseUI(UIMenuType.Pause);
-                GameManager.instance.currentGameState = GameState.Paused;
+                GameManager.instance.currentGameState = GameState.Playing;
                 break;
 
             case "Show Win Menu":
@@ -125,7 +143,7 @@ public class UIManager : MonoBehaviour
     // Reseting all UI element to default state.
     private void ResetUI()
     {
-        foreach(UIElement element in _uiElements.Values)
+        foreach (UIElement element in _uiElements.Values)
         {
             if (element.GetUIType() == UIMenuType.MainMenu)
                 element.ShowUI();
@@ -133,16 +151,5 @@ public class UIManager : MonoBehaviour
             element.HideUI();
         }
     }
-
-    private void OnEnable()
-    {
-        OnRegisterUI += m_OnRegisterUI;
-        OnCommandExecuted += m_OnCommandExecuted;
-    }
-
-    private void OnDisable()
-    {
-        OnRegisterUI -= m_OnRegisterUI;
-        OnCommandExecuted -= m_OnCommandExecuted;
-    }
+    #endregion
 }

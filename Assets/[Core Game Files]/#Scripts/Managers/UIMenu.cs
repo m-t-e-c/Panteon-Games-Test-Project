@@ -5,12 +5,12 @@ public class UIMenu : UIElement
 {
     public override void HideUI()
     {
-        transform.DOScale(Vector3.zero, 0.2f);
+        transform.DOScale(new Vector3(0,1,1), 0.2f);
     }
 
     public override void ShowUI()
     {
-        transform.DOScale(Vector3.one, 0.4f);
+        transform.DOScale(new Vector3(1, 1, 1), 0.2f);
     }
 
     public override UIMenuType GetUIType()
