@@ -8,6 +8,8 @@ TagManager:
   - FinishLine
   - Level
   - CameraHolder
+  - Water
+  - RotatingPlatform
   layers:
   - Default
   - TransparentFX

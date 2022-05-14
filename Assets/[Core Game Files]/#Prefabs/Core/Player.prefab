@@ -42,13 +42,13 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5197425861068227484}
   serializedVersion: 2
-  m_Mass: 10
+  m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 116
+  m_Interpolate: 2
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &5197425861068227472
 CapsuleCollider:
@@ -57,7 +57,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5197425861068227484}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b3e58264b182f8b47b3caa74c04114b2, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -76,14 +76,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43154dcb07c759d4bb112029094d21db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementBoundary: {x: -6, y: 6}
-  _footTransform: {fileID: 0}
-  _stepDust: {fileID: 0}
   _animator: {fileID: 5197425861822360131}
-  _isMoving: 0
-  _isPainting: 0
+  _movementBoundaryHorizontal: {x: -10, y: 10}
+  _movementBoundaryVertical: {x: -10, y: 0.6}
   _forwardSpeed: 8.5
-  _sidewaySpeed: 35
+  _sidewaySpeed: 50
   _failStunParticle: {fileID: 9125317733635617762}
 --- !u!1001 &5197425862412670533
 PrefabInstance:

@@ -6,15 +6,14 @@ public class AIControl : Character
     // Animation Hashes
     private int isMovingAnimHash = -1;
 
-    // References
+    [Header("References")]
     [SerializeField] private GameObject _hitParticle;
     private Vector3 _startPos;
     private NavMeshAgent _navAgent;
 
     [Header("NavMesh Properties")]
     [SerializeField][Range(0, 15f)] private float _moveSpeed = 5f;
-
-    public Transform currentDestination;
+    [SerializeField] private Transform currentDestination;
 
     private void Start()
     {
@@ -43,12 +42,11 @@ public class AIControl : Character
         _animator.SetBool(isMovingAnimHash, false);
     }
 
-    protected override void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         //Taking AI to the start position.
         if (other.CompareTag("Obstacle"))
         {
-            print("OBSTACLE HIT");
             if (_hitParticle != null)
                 Instantiate(_hitParticle, transform.position, Quaternion.identity).ParentSet(LevelManager.instance.debrisParent);
 

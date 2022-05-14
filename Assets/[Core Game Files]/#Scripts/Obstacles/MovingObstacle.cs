@@ -2,24 +2,29 @@ using UnityEngine;
 
 public class MovingObstacle : MonoBehaviour
 {
+    [Header("Object To Move")]
+    [SerializeField] private Transform _transform;
+
     [Header("Properties")]
     [SerializeField] private Vector3 _moveDistance;
+    [SerializeField] private float _reverseDelay;
     [SerializeField] private float _duration;
 
-    [Header("States")]
-    [SerializeField][Tooltip("If you want to rotate object activate this.")] public bool _useRotation = false;
+    // States
     private bool _reverse = false;
 
-    // References
+    //Private References
     private Vector3 _startPos = Vector3.zero;
     private Vector3 _endPos = Vector3.zero;
 
-    // Properties
     private float _timeStartedLerping;
+    private float waitTime;
 
     #region Unity Methods
     private void Start()
     {
+        if (_transform == null)
+            _transform = transform;
         ChangeDestination();
     }
 
@@ -28,12 +33,17 @@ public class MovingObstacle : MonoBehaviour
         float timeSinceLerp = Time.time - _timeStartedLerping;
         float completeAmount = timeSinceLerp / _duration;
 
-        transform.position = Vector3.Lerp(_startPos, _endPos, completeAmount);
+        _transform.position = Vector3.Lerp(_startPos, _endPos, completeAmount);
 
         if (completeAmount >= 1f)
         {
-            _reverse = !_reverse;
-            ChangeDestination();
+            waitTime += Time.deltaTime;
+            if (waitTime >= _reverseDelay)
+            {
+                waitTime = 0;
+                _reverse = !_reverse;
+                ChangeDestination();
+            }
         }
     }
     #endregion
@@ -41,10 +51,10 @@ public class MovingObstacle : MonoBehaviour
     #region MovingObstacle Methods
     private void ChangeDestination()
     {
-        _startPos = transform.position;
-        _endPos = _reverse ? transform.position - _moveDistance : transform.position + _moveDistance;
+        _startPos = _transform.position;
+        _endPos = _reverse ? _transform.position - _moveDistance : _transform.position + _moveDistance;
         _timeStartedLerping = Time.time;
-        _startPos = transform.position;
+        _startPos = _transform.position;
     }
     #endregion
 }

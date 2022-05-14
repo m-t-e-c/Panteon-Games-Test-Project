@@ -73,14 +73,6 @@ public class CameraFollower : MonoBehaviour
         // Setting the Camera Field of View.
         Camera.main.fieldOfView = fov;
 
-        /*// We are only lerping in X axis to prevent stuterring.
-        Vector3 followPos = new Vector3(_target.position.x, _target.position.y, _target.position.z) + offset;
-        transform.position = new Vector3(
-            Mathf.Lerp(transform.position.x, followPos.x, posLerpSpeed * Time.deltaTime),
-            followPos.y,
-            followPos.z
-            );*/
-
         Vector3 followPos = new Vector3(_target.position.x, _target.position.y, _target.position.z) + offset;
         transform.position = Vector3.Lerp(transform.position, followPos, posLerpSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotationAngle), rotLerpSepeed * Time.deltaTime);

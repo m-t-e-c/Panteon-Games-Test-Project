@@ -58,7 +58,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6126514439254522606}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b3e58264b182f8b47b3caa74c04114b2, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -99,9 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa20855222b8e24eb7c75a65988e839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementBoundary: {x: -6, y: 6}
-  _footTransform: {fileID: 0}
-  _stepDust: {fileID: 0}
+  _movementBoundaryHorizontal: {x: -10, y: 10}
+  _movementBoundaryVertical: {x: -5, y: 1}
   _animator: {fileID: 6126514439976380134}
   _isMoving: 0
   _isPainting: 0
