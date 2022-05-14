@@ -55,10 +55,14 @@ public class PlayerControl : Character, ISlipable, IPushable
         }
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("FinishLine"))
+        {
+            StartCoroutine(WaitForPaintingStage());
+        }
 
-        if (other.gameObject.CompareTag("Obstacle"))
+        if (other.CompareTag("Water") || other.CompareTag("Obstacle"))
         {
             // Activating stun particle.
             _failStunParticle.SetActive(true);
@@ -70,14 +74,6 @@ public class PlayerControl : Character, ISlipable, IPushable
 
             // Setting camera to Fail Camera.
             CameraFollower.OnCameraSetted?.Invoke(CameraType.Fail_Cam, transform);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("FinishLine"))
-        {
-            StartCoroutine(WaitForPaintingStage());
         }
     }
 
