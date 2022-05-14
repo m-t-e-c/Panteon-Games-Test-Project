@@ -113,7 +113,7 @@ public class UIManager : MonoBehaviour
         if (name != null && element != null)
             if (!_uiElements.ContainsKey(menuType))
             {
-                Debug.Log("UI Registered --> " + element);
+                //Debug.Log("UI Registered --> " + element);
                 _uiElements.Add(menuType, element);
             }
     }

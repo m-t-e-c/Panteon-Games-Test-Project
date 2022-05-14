@@ -6,7 +6,9 @@ public abstract class Character : MonoBehaviour
     [Header("Character Movement Properties")]
     [SerializeField] protected Vector2 _movementBoundary = Vector2.zero;
 
-    [Header("Component References")]
+    [Header("References")]
+    [SerializeField] protected Transform _footTransform;
+    [SerializeField] protected GameObject _stepDust;
     [SerializeField] protected Animator _animator;
     protected Rigidbody _rigidBody = null;
     protected CapsuleCollider _capsuleCollider = null;
@@ -14,11 +16,7 @@ public abstract class Character : MonoBehaviour
     [Header("States")]
     [SerializeField] protected bool _isMoving = false; 
     [SerializeField] protected bool _isPainting= false;
-
-    [SerializeField] protected Transform _footTransform;
-    [SerializeField] protected GameObject _stepDust;
-
-    public float xPos = 0;
+    
 
     #region Unity Methods
 

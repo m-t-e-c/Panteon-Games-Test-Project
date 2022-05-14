@@ -48,20 +48,20 @@ MonoBehaviour:
   - cameraType: 1
     offset: {x: 0, y: 10, z: -12}
     rotationAngle: {x: 30, y: 0, z: 0}
-    positionLerpSpeed: 0.2
-    rotationLerpSpeed: 1
+    positionLerpSpeed: 5
+    rotationLerpSpeed: 5
     fov: 60
   - cameraType: 2
-    offset: {x: 0, y: 5.5, z: 2}
-    rotationAngle: {x: 0, y: 0, z: 0}
-    positionLerpSpeed: 0.01
-    rotationLerpSpeed: 0.01
-    fov: 85
+    offset: {x: 0, y: 5, z: 2}
+    rotationAngle: {x: -5, y: 0, z: 0}
+    positionLerpSpeed: 1
+    rotationLerpSpeed: 1
+    fov: 80
   - cameraType: 3
     offset: {x: -9, y: 10, z: -9}
     rotationAngle: {x: 30, y: 45, z: 0}
-    positionLerpSpeed: 0.01
-    rotationLerpSpeed: 0.01
+    positionLerpSpeed: 3
+    rotationLerpSpeed: 3
     fov: 60
   _currentCameraType: 0
 --- !u!1 &2543710288934888634

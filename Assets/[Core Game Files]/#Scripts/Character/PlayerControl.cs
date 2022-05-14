@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerControl : Character
@@ -6,10 +7,12 @@ public class PlayerControl : Character
     private int isMovingAnimHash = -1;
     private int isPaintingAnimHash = -1;
 
-    // Movement Properties
+    [Header("Movement Properties")]
     [SerializeField][Range(0f, 100f)] protected float _forwardSpeed = 5f;
     [SerializeField][Range(0f, 100f)] protected float _sidewaySpeed = 20f;
 
+    // Private Fields 
+    private float xPos = 0;
     private float horizontal = 0;
 
     [SerializeField] private GameObject _failStunParticle;
@@ -34,7 +37,10 @@ public class PlayerControl : Character
         if (GameManager.instance.currentGameState == GameState.Playing)
         {
             if (_isPainting)
+            {
+                _rigidBody.isKinematic = true;
                 return;
+            }
 
             Move(horizontal);
         }
@@ -61,10 +67,16 @@ public class PlayerControl : Character
         base.OnTriggerEnter(other);
         if (other.CompareTag("FinishLine"))
         {
-            // Setting camera to Paint Camera.
-            CameraFollower.OnCameraSetted?.Invoke(CameraType.Paint_Cam, transform);
-            transform.position = new Vector3(0, transform.position.y, transform.position.z);
+           StartCoroutine(WaitForPaintingStage());
         }
+    }
+
+    IEnumerator WaitForPaintingStage()
+    {
+        yield return new WaitForSeconds(2f);
+        // Setting camera to Paint Camera.
+        CameraFollower.OnCameraSetted?.Invoke(CameraType.Paint_Cam, transform);
+        transform.position = new Vector3(0, transform.position.y, transform.position.z);
     }
 
     #endregion

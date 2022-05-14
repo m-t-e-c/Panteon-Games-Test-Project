@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5197425861068227473}
   - component: {fileID: 5197425861068227472}
   - component: {fileID: 5197425861068227486}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
@@ -77,12 +77,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementBoundary: {x: -6, y: 6}
+  _footTransform: {fileID: 0}
+  _stepDust: {fileID: 0}
   _animator: {fileID: 5197425861822360131}
   _isMoving: 0
   _isPainting: 0
-  xPos: 0
   _forwardSpeed: 8.5
-  _sidewaySpeed: 100
+  _sidewaySpeed: 35
   _failStunParticle: {fileID: 9125317733635617762}
 --- !u!1001 &5197425862412670533
 PrefabInstance:
