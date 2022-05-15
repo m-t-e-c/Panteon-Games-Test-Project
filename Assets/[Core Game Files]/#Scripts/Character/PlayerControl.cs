@@ -90,7 +90,6 @@ public class PlayerControl : Character, ISlipable, IPushable
     #endregion
 
     #region PlayerControl Methods
-
     // Default character movement system.
     protected virtual void Movement()
     {
