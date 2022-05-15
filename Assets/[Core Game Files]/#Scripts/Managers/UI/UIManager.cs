@@ -61,11 +61,10 @@ public class UIManager : MonoBehaviour
                 CloseUI(UIMenuType.Pause);
                 GameManager.instance.currentGameState = GameState.Playing;
                 break;
-
+/*
             case "Show Win Menu":
                 OpenUI(UIMenuType.Win);
                 GameManager.instance.currentGameState = GameState.Finished;
-
                 break;
 
             case "Show Lose Menu":
@@ -76,11 +75,17 @@ public class UIManager : MonoBehaviour
             case "Show Main Menu":
                 OpenUI(UIMenuType.MainMenu);
                 GameManager.instance.currentGameState = GameState.Menu;
-                break;
+                break;*/
 
             case "Restart Level":
                 ResetUI();
                 LevelManager.instance.RestartLevel();
+                GameManager.instance.currentGameState = GameState.Menu;
+                break;
+
+            case "Next Level":
+                ResetUI();
+                LevelManager.instance.NextLevel();
                 GameManager.instance.currentGameState = GameState.Menu;
                 break;
 
@@ -98,7 +103,7 @@ public class UIManager : MonoBehaviour
 
             case "Win Game":
                 CloseUI(UIMenuType.Gameplay);
-                OpenUI(UIMenuType.Lose);
+                OpenUI(UIMenuType.Win);
                 GameManager.instance.currentGameState = GameState.Finished;
                 break;
             default:

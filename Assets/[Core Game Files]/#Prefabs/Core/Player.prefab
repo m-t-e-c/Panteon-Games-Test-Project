@@ -78,9 +78,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 5197425861822360131}
   _movementBoundaryHorizontal: {x: -10, y: 10}
-  _movementBoundaryVertical: {x: -10, y: 0.6}
-  _forwardSpeed: 8.5
-  _sidewaySpeed: 50
+  _movementBoundaryVertical: {x: -10, y: 0.5}
+  _forwardSpeed: 7.7
+  _sidewaySpeed: 12
   _failStunParticle: {fileID: 9125317733635617762}
 --- !u!1001 &5197425862412670533
 PrefabInstance:

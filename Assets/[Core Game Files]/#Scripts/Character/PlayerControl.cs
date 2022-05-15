@@ -57,7 +57,7 @@ public class PlayerControl : Character, ISlipable, IPushable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("FinishLine"))
+        if (other.CompareTag("PaintableWall"))
         {
             StartCoroutine(WaitForPaintingStage());
         }
@@ -81,7 +81,7 @@ public class PlayerControl : Character, ISlipable, IPushable
     IEnumerator WaitForPaintingStage()
     {
         _isPainting = true;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         // Setting camera to Paint Camera.
         CameraFollower.OnCameraSetted?.Invoke(CameraType.Paint_Cam, transform);
         transform.position = new Vector3(0, transform.position.y, transform.position.z);
